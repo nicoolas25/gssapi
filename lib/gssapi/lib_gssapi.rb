@@ -179,7 +179,8 @@ module GSSAPI
     class GssCtxIdT < GssPointer
       def self.release_ptr(context_ptr)
         min_stat = FFI::MemoryPointer.new :OM_uint32
-        maj_stat = LibGSSAPI.gss_delete_sec_context(min_stat, context_ptr, LibGSSAPI::GSS_C_NO_BUFFER)
+        # Leak the pointer like the cbeer suggestion on #12
+        # maj_stat = LibGSSAPI.gss_delete_sec_context(min_stat, context_ptr, LibGSSAPI::GSS_C_NO_BUFFER)
       end
 
       def self.gss_c_no_context
